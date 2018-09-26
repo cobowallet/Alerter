@@ -70,7 +70,7 @@ public class Alert extends FrameLayout implements View.OnClickListener, Animatio
 
     private long duration = DISPLAY_TIME_IN_SECONDS;
 
-    private boolean enableIconPulse = true;
+    private boolean enableIconPulse;
     private boolean enableInfiniteDuration;
     private boolean enableProgress;
 
@@ -155,7 +155,7 @@ public class Alert extends FrameLayout implements View.OnClickListener, Animatio
 
             // Add a negative top margin to compensate for overshoot enter animation
             final ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) getLayoutParams();
-            params.topMargin = getContext().getResources().getDimensionPixelSize(R.dimen.alerter_alert_negative_margin_top);
+            params.topMargin = -getContext().getResources().getDimensionPixelSize(R.dimen.alerter_alert_top_overshoot);
             requestLayout();
         }
     }
@@ -177,7 +177,7 @@ public class Alert extends FrameLayout implements View.OnClickListener, Animatio
 
     @Override
     public void onClick(final View v) {
-        if(!dismissable) {
+        if (!dismissable) {
             return;
         }
         hide();
@@ -491,6 +491,15 @@ public class Alert extends FrameLayout implements View.OnClickListener, Animatio
     /**
      * Set the inline icon for the Alert
      *
+     * @param drawable Drawable image of the icon to use in the Alert.
+     */
+    public void setIcon(@NonNull final Drawable drawable) {
+        ivIcon.setImageDrawable(drawable);
+    }
+
+    /**
+     * Set the inline icon for the Alert
+     *
      * @param iconId Drawable resource id of the icon to use in the Alert
      */
     public void setIcon(@DrawableRes final int iconId) {
@@ -541,15 +550,6 @@ public class Alert extends FrameLayout implements View.OnClickListener, Animatio
     }
 
     /**
-     * Set the inline icon for the Alert
-     *
-     * @param drawable Drawable image of the icon to use in the Alert.
-     */
-    public void setIcon(@NonNull final Drawable drawable) {
-        ivIcon.setImageDrawable(drawable);
-    }
-
-    /**
      * Set whether to show the icon in the alert or not
      *
      * @param showIcon True to show the icon, false otherwise
@@ -581,20 +581,21 @@ public class Alert extends FrameLayout implements View.OnClickListener, Animatio
     }
 
     /**
+     * Get if the alert is dismissable
+     *
+     * @return dismissable
+     */
+    public boolean isDismissable() {
+        return dismissable;
+    }
+
+    /**
      * Set if the alerter is dismissable or not
      *
      * @param dismissable True if alert can be dismissed
      */
     public void setDismissable(final boolean dismissable) {
         this.dismissable = dismissable;
-    }
-
-    /**
-     * Get if the alert is dismissable
-     * @return
-     */
-    public boolean isDismissable() {
-        return dismissable;
     }
 
     /**
@@ -670,15 +671,6 @@ public class Alert extends FrameLayout implements View.OnClickListener, Animatio
     }
 
     /**
-     * Set the alert's listener to be fired on the alert being fully hidden
-     *
-     * @param listener Listener to be fired
-     */
-    public void setOnHideListener(@NonNull final OnHideAlertListener listener) {
-        this.onHideListener = listener;
-    }
-
-    /**
      * Enable or Disable haptic feedback
      *
      * @param vibrationEnabled True to enable, false to disable
@@ -722,5 +714,14 @@ public class Alert extends FrameLayout implements View.OnClickListener, Animatio
      */
     public OnHideAlertListener getOnHideListener() {
         return onHideListener;
+    }
+
+    /**
+     * Set the alert's listener to be fired on the alert being fully hidden
+     *
+     * @param listener Listener to be fired
+     */
+    public void setOnHideListener(@NonNull final OnHideAlertListener listener) {
+        this.onHideListener = listener;
     }
 }

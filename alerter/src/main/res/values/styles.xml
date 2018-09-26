@@ -13,7 +13,7 @@
         <item name="android:maxHeight">@dimen/alerter_alert_max_height</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">top</item>
-        <item name="android:paddingTop">@dimen/alerter_alert_padding</item>
+        <item name="android:paddingTop">@dimen/alerter_alert_top_overshoot</item>
     </style>
 
     <style name="AlertTextAppearance">
